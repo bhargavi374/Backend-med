@@ -18,9 +18,13 @@ connectDB();
 const app = express();
 
 // Middleware
+// app.use(cors({
+//   origin: "https://frontend-med.vercel.app", // Vite frontend
+//   credentials: true,
+// }));
 app.use(cors({
-  origin: "https://frontend-med.vercel.app", // Vite frontend
-  credentials: true,
+  origin: [/\.vercel\.app$/], // allow any *.vercel.app
+  credentials: true
 }));
 app.use(express.json()); // Parse incoming JSON
 
