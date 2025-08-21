@@ -22,10 +22,24 @@ const app = express();
 //   origin: "https://frontend-med.vercel.app", // Vite frontend
 //   credentials: true,
 // }));
+const cors = require("cors");
+
 app.use(cors({
-  origin: [/\.vercel\.app$/], // allow any *.vercel.app
-  credentials: true
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow requests like Postman, curl
+
+    if (
+      /\.vercel\.app$/.test(origin) || // allow any *.vercel.app
+      origin === "https://mindfulspace-mfo62js3i-bhargavis-projects-d38c2bdc.vercel.app"
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
+
 app.use(express.json()); // Parse incoming JSON
 
 // API Routes
